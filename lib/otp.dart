@@ -1,7 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:pinput/pinput.dart';
+import 'package:wetrajet/credentials.dart';
+import 'package:wetrajet/home.dart';
 import 'package:wetrajet/phone.dart';
+
+import 'controller/auth_controller.dart';
 
 class MyOtp extends StatefulWidget {
   const MyOtp({Key? key}) : super(key: key);
@@ -11,6 +18,9 @@ class MyOtp extends StatefulWidget {
 }
 
 class _MyOtpState extends State<MyOtp> {
+
+  AuthController authController = Get.find<AuthController>();
+
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 

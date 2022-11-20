@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Chauffeur/InfoBase.dart';
 
 class Inscription extends StatefulWidget {
   const Inscription({Key? key}) : super(key: key);
@@ -55,38 +56,6 @@ class _InscriptionState extends State<Inscription> {
   }
 }
 
-class InfoBase extends StatefulWidget {
-  const InfoBase({Key? key}) : super(key: key);
 
-  @override
-  State<InfoBase> createState() => _InfoBaseState();
-}
 
-class _InfoBaseState extends State<InfoBase> {
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 20,
-              child: Stack(
-                children: [
-                  
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
 

@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wetrajet/controller/auth_controller.dart';
+import 'package:wetrajet/otp.dart';
 
 class MyPhone extends StatefulWidget {
   const MyPhone({Key? key}) : super(key: key);
@@ -15,6 +18,7 @@ class _MyPhoneState extends State<MyPhone> {
   TextEditingController countryCode = TextEditingController();
   var phoneNumber = "";
 
+
   @override
   void initState() {
     countryCode.text = "+216";
@@ -23,6 +27,8 @@ class _MyPhoneState extends State<MyPhone> {
 
   @override
   Widget build(BuildContext context) {
+    AuthController authController = Get.put(AuthController());
+    authController.decidedRoute();
     return Scaffold(
       body: Container(
         margin: EdgeInsets.only(left: 25, right: 25),
@@ -114,9 +120,11 @@ class _MyPhoneState extends State<MyPhone> {
                       primary: Color(0xFF4BE3B0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)
-                      )
+                      ),
+                    elevation: 10
                   ),),
               ),
+
             ],
           ),
         ),
