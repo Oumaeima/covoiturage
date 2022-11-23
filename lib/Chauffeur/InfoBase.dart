@@ -1,6 +1,13 @@
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as p;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+
 
 class InfoBase extends StatefulWidget {
   const InfoBase({Key? key}) : super(key: key);
@@ -11,10 +18,56 @@ class InfoBase extends StatefulWidget {
 
 class _InfoBaseState extends State<InfoBase> {
 
-
   TextEditingController fullNameController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+
+  final ImagePicker _picker = ImagePicker();
+  File? selectedImage;
+
+  getImage(ImageSource source) async {
+    final XFile? image = await _picker.pickImage(source: source);
+    if(image != null){
+      selectedImage = File(image.path);
+      setState((){
+
+      });
+    }
+  }
+
+  uploadImage(File image) async{
+      String imageUrl = "";
+      String fileName = p.basename(image.path);
+      var reference = FirebaseStorage.instance
+      .ref()
+      .child('users/$fileName');
+      UploadTask uploadTask = reference.putFile(image);
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+      await taskSnapshot.ref.getDownloadURL().then((value){
+        imageUrl = value;
+        print("Download url: $value");
+      });
+      return imageUrl;
+  }
+
+  storeUserInfo() async{
+    String url = await uploadImage(selectedImage!);
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    FirebaseFirestore.instance.collection("driver").doc(uid).set({
+      'image': url,
+      'userId': uid,
+      'name' : fullNameController.text,
+      'birthday': dateController.text,
+      'email': emailController.text
+    }).then((value){
+      fullNameController.clear();
+      dateController.clear();
+      emailController.clear();
+      isLoading = false;
+      Navigator.pushNamed(context, "permisC");
+    });
+  }
+
   validateForm() {
     if (fullNameController.text.isEmpty) {
       Fluttertoast.showToast(msg: " Name must be at least 3 characters");
@@ -35,7 +88,7 @@ class _InfoBaseState extends State<InfoBase> {
     }
   }
 
-
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -60,34 +113,37 @@ class _InfoBaseState extends State<InfoBase> {
                       margin: EdgeInsets.only(top: 20),
                       child: Column(
                         children: [
-                          CircleAvatar(
+                           selectedImage == null? CircleAvatar(
                             radius: 50,
                             backgroundImage: AssetImage('lib/assets/homme.png'),
-                          ),
-                          SizedBox(
+                          ): CircleAvatar(
+                             radius: 50,
+                             backgroundImage: FileImage(selectedImage!),
+                           ),
+                          const SizedBox(
                             height: 20,
                           ),
-                          SizedBox(
-                            //height: 45,
-                            //width: double.infinity,
-                            child:  ElevatedButton(
-                              onPressed: () async {
-
-                              },
-                              child: Text('Ajouter une photo*'),
-                              style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFF4BE3B0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30)
-                                  )
-                              ),),
+                          OutlinedButton (
+                            style: OutlinedButton.styleFrom(
+                              shape: const StadiumBorder(),
+                              side: const BorderSide(
+                                  width: 1,
+                                  color: Color(0xFF4BE3B0)
+                              ),
+                            ),
+                            onPressed: () {
+                              getImage(ImageSource.camera);
+                            },
+                            child: const Text('Ajouter une photo', style: TextStyle(
+                                color: Color(0xFF4BE3B0)
+                            ),),
                           ),
 
                           const SizedBox(
                             height: 30,
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 15, right: 15),
+                            margin: const EdgeInsets.only(left: 15, right: 15),
                             height: 50,
                             decoration: BoxDecoration(
                               border: Border.all(width: 1, color: Colors.grey),
@@ -95,10 +151,10 @@ class _InfoBaseState extends State<InfoBase> {
                             ),
                             child: Row(
                               children:  [
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 15,
                                   child: TextField(
                                     decoration: InputDecoration(
@@ -110,7 +166,7 @@ class _InfoBaseState extends State<InfoBase> {
                                   child: TextField(
                                     controller: fullNameController,
                                     keyboardType: TextInputType.name,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "Full Name"
                                     ),
@@ -177,12 +233,12 @@ class _InfoBaseState extends State<InfoBase> {
                             ),
                           ),
 
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
 
                           Container(
-                            margin: EdgeInsets.only(left: 15, right: 15),
+                            margin: const EdgeInsets.only(left: 15, right: 15),
                             height: 50,
                             decoration: BoxDecoration(
                               border: Border.all(width: 1, color: Colors.grey),
@@ -190,10 +246,10 @@ class _InfoBaseState extends State<InfoBase> {
                             ),
                             child: Row(
                               children:  [
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 15,
                                   child: TextField(
 
@@ -206,7 +262,7 @@ class _InfoBaseState extends State<InfoBase> {
                                   child: TextField(
                                     controller: emailController,
                                     keyboardType: TextInputType.emailAddress,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "E-mail"
                                     ),
@@ -216,7 +272,7 @@ class _InfoBaseState extends State<InfoBase> {
                             ),
                           ),
 
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                         ],
@@ -224,23 +280,37 @@ class _InfoBaseState extends State<InfoBase> {
 
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 50,
+                    height: 10,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
+                  isLoading? Center(child: CircularProgressIndicator(),): ElevatedButton(
+                    onPressed: () async{
+                   /*   FirebaseAuth.instance
+                          .authStateChanges()
+                          .listen((User? user) async {
+
+                        if (user != null) {
+                          print(user.uid);
+                          FirestoreService.AuthCredential(name: fullNameController.text, email: emailController.text);
+                        }
+                      });*/
                       validateForm();
-                      Navigator.pushNamed(context, "permisC");
+                      //Navigator.pushNamed(context, "permisC");
+                      setState((){
+                        isLoading = true;
+                      });
+                      storeUserInfo();
                     },
-                    child: Text('Next'),
                     style: ElevatedButton.styleFrom(
                         fixedSize: const Size(330, 45),
-                        primary: Color(0xFF4BE3B0),
+                        primary: const Color(0xFF4BE3B0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)
                         ),
                         elevation: 10
-                    ),),
+                    ),
+                    child: const Text('Next'),),
 
                 ]
             ),

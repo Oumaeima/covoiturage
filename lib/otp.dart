@@ -21,8 +21,14 @@ class _MyOtpState extends State<MyOtp> {
 
   AuthController authController = Get.find<AuthController>();
 
-
   final FirebaseAuth auth = FirebaseAuth.instance;
+
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
