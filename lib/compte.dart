@@ -1,59 +1,65 @@
 import 'package:flutter/material.dart';
 
-class Credentials extends StatefulWidget {
-  const Credentials({Key? key}) : super(key: key);
+class Compte extends StatefulWidget {
+  const Compte({Key? key}) : super(key: key);
 
   @override
-  State<Credentials> createState() => _CredentialsState();
+  State<Compte> createState() => _CompteState();
 }
 
-class _CredentialsState extends State<Credentials> {
+class _CompteState extends State<Compte> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(left: 25, right: 25),
+        margin: EdgeInsets.only(left: 25, right: 25, top: 160),
         alignment: Alignment.topCenter,
         child: SingleChildScrollView(
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset('lib/assets/Profile.png'),
+              Image.asset('lib/assets/goride.png'),
               SizedBox(
-                height: 20,
+                height: 40,
               ),
               SizedBox(
-                height: 45,
+                height: 50,
                 width: double.infinity,
                 child:  ElevatedButton(
                   onPressed: () async {
-                      Navigator.pushNamed(context, "info");
+                    Navigator.pushNamed(context, "phone");
                   },
-                  child: Text('Voiture'),
                   style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF4BE3B0),
+                      side: BorderSide(color: Color(0xFF4BE3B0), width: 1),
+                      primary: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)
                       )
-                  ),),
+                  ),
+                  child: const Text('Passager', style: TextStyle(
+                    color: Colors.black
+                  )),),
               ),
               SizedBox(
-                height: 20,
+                height: 30,
               ),
               SizedBox(
-                height: 45,
+                height: 50,
                 width: double.infinity,
                 child:  ElevatedButton(
                   onPressed: () async {
-
+                    Navigator.pushNamed(context, "phone");
                   },
-                  child: Text('Coursier'),
                   style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF4BE3B0),
+                      side: BorderSide(color: Color(0xFF4BE3B0), width: 1),
+                      primary: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)
                       )
-                  ),),
+                  ),
+                  child: const Text('Chauffeur', style: TextStyle(
+                      color: Colors.black
+                  )),),
               ),
             ],
           ),
