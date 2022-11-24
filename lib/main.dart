@@ -19,7 +19,7 @@ void main() async{
   await Firebase.initializeApp();
   runApp(MaterialApp(
 
-    initialRoute: 'infoV',
+    initialRoute: 'home',
     routes: {
       'phone': (context) => MyPhone(),
       'otp': (context) => MyOtp(),

@@ -46,7 +46,7 @@ class AuthController extends GetxController{
     User? user = FirebaseAuth.instance.currentUser;
     if(user != null){
       // check user profile exist?
-      FirebaseFirestore.instance.collection('users').doc(user.uid).get()
+      FirebaseFirestore.instance.collection('driver').doc(user.uid).get()
           .then((value){
             if(value.exists){
               Get.to("home");
