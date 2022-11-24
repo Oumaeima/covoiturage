@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1092160824151",
+    "project_id": "wetrajet-3fd4a",
+    "storage_bucket": "wetrajet-3fd4a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092160824151:android:bdeb78865b5ae3a21f5412",
+        "android_client_info": {
+          "package_name": "com.example.wetrajet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092160824151-b5s946t6odcqgsnt6bsi5mfacufg7k9b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wetrajet",
+            "certificate_hash": "fdf477ad22800f964948eb3659dd98992ca15e70"
+          }
+        },
+        {
+          "client_id": "1092160824151-pagpd429qcrlapr966hi30ajsc8jb7s6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCew7JjzJrSSlFuTMyh9Habug4f1TnLATg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092160824151-pagpd429qcrlapr966hi30ajsc8jb7s6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

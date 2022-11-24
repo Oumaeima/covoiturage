@@ -29,13 +29,13 @@ class _CredentialsState extends State<Credentials> {
                   onPressed: () async {
 
                   },
-                  child: Text('Voiture'),
                   style: ElevatedButton.styleFrom(
                       primary: Color(0xFF4BE3B0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)
                       )
-                  ),),
+                  ),
+                  child:  Text('Voiture'),),
               ),
               SizedBox(
                 height: 20,
