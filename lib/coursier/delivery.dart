@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:wetrajet/coursier/getcommands.dart';
+
 
 
 class Delivery extends StatefulWidget {
@@ -14,49 +14,58 @@ class Delivery extends StatefulWidget {
 
 class _deliveryState extends State<Delivery> {
   @override
- //commandes IDs
-  List<String> commandesId =[];
 
-// Get commandesID
- Future getCommandsList() async {
-     await FirebaseFirestore.instance.collection("commandes").get().then(
-             (snapshot) => snapshot.docs.forEach((document) {
-           print(document.reference);
-           commandesId.add(document.reference.id);
-         }));
-
-  }
-
-@override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getCommandsList();
-  }
 
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(backgroundColor: Color(0xFF4BE3B0),
-            title: Text("Les commandes")),
+      appBar: AppBar(
+        title: Text("Les commandes" ,textAlign:TextAlign.center),
+          backgroundColor: Color(0xFF4BE3B0),
+          actions: [
+        IconButton( onPressed: () {  },icon:Icon( Icons.exit_to_app)),
 
-      body: FutureBuilder(
-          future: getCommandsList() ,
-          builder:(context, snapshot) {
-        return ListView.builder(
-        itemCount: commandesId.length,
-    itemBuilder: (context,index){
-    return ListTile(
-        trailing: IconButton(onPressed: (){}, 
-          icon:Icon(Icons.verified_sharp)),
-        subtitle: Getcommands(commands:commandesId[index],
+        ]),
+       body: StreamBuilder <QuerySnapshot> (
+         stream:FirebaseFirestore.instance.collection("commandes").snapshots(),
+         builder:(context, snapshot){
+           if (snapshot.hasError) {
+             return Text('Something went wrong');
+           }
+           if (snapshot.connectionState == ConnectionState.waiting) {
+             return CircularProgressIndicator();
+           }
+           return ListView.builder(
+               padding: EdgeInsets.only(bottom: 70, top: 16),
+             itemCount: snapshot.data!.docs.length,
+             itemBuilder: (context,index){
+               DocumentSnapshot commandes = snapshot.data!.docs[index];
+               return Card(
+                 shadowColor: Colors.black,
+                 color: Colors.greenAccent[100],
+                   child: SizedBox(
+                   width: 50,
+                   height: 50,
+               child:
+                     Padding(
+                       padding: const EdgeInsets.all(15.0),
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                            Text(commandes["client id"].toString()),
 
 
-    )
-    );
-    });
-    }
-      )
+
+                          ],
+                       ),
+                     ),
+
+               ));
+
+             }
+           );
+         },
+       )
+
     );
   }
 }
