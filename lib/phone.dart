@@ -17,18 +17,19 @@ class _MyPhoneState extends State<MyPhone> {
 
   TextEditingController countryCode = TextEditingController();
   var phoneNumber = "";
+  AuthController authController = Get.put(AuthController());
 
 
   @override
   void initState() {
     countryCode.text = "+216";
     super.initState();
+    authController.decidedRoute();
   }
 
   @override
   Widget build(BuildContext context) {
-    AuthController authController = Get.put(AuthController());
-    authController.decidedRoute();
+
     return Scaffold(
       body: Container(
         margin: EdgeInsets.only(left: 25, right: 25),

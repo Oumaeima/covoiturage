@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:wetrajet/Chauffeur/InfoBase.dart';
 import 'package:wetrajet/Chauffeur/Permis.dart';
 import 'package:wetrajet/Chauffeur/infoVehicule.dart';
+import 'package:wetrajet/Chauffeur/profile.dart';
 import 'package:wetrajet/compte.dart';
 import 'package:wetrajet/credentials.dart';
 import 'package:wetrajet/home.dart';
@@ -18,8 +19,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MaterialApp(
-
-    initialRoute: 'home',
+    initialRoute: "phone",
     routes: {
       'phone': (context) => MyPhone(),
       'otp': (context) => MyOtp(),
@@ -30,6 +30,7 @@ void main() async{
       'compte': (context) => Compte(),
       'permisC': (context) => PermisChauffeur(),
       'infoV': (context) => InfoVehiculeChauffeur(),
+      'profileC': (context) => ProfileChauffeur(),
     },
   ));
 }
