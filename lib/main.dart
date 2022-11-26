@@ -19,7 +19,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MaterialApp(
-    initialRoute: "phone",
+    initialRoute: "info",
     routes: {
       'phone': (context) => MyPhone(),
       'otp': (context) => MyOtp(),

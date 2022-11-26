@@ -426,7 +426,7 @@ class _PermisChauffeurState extends State<PermisChauffeur> {
                     width: 50,
                     height: 10,
                   ),
-                  authController.driverModel.value.name == null?
+                  authController.driverModel.value.numPermis == null?
                   ElevatedButton(
                     onPressed: () {
                       validateForm();

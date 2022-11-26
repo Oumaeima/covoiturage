@@ -127,7 +127,7 @@ class _InfoVehiculeChauffeurState extends State<InfoVehiculeChauffeur> {
                             height: 10,
                           ),
                           const Text("Photo de Véhicule"),
-                          selectedImage == null? authController.driverModel.value.image == null?
+                          selectedImage == null? authController.driverModel.value.marqueVoiture == null?
                           Image.asset('lib/assets/car.png', width: 200, height: 200,)
                           : Image.network(authController.driverModel.value.photoVoiture!, width: 200, height: 200,)
                           : Container(
@@ -309,7 +309,7 @@ class _InfoVehiculeChauffeurState extends State<InfoVehiculeChauffeur> {
                     width: 50,
                     height: 10,
                   ),
-                  authController.driverModel.value.name == null?
+                  authController.driverModel.value.marqueVoiture == null?
                   ElevatedButton(
                     onPressed: () {
                       validateForm();
