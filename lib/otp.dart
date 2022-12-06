@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:pinput/pinput.dart';
 import 'package:wetrajet/credentials.dart';
-import 'package:wetrajet/home.dart';
 import 'package:wetrajet/phone.dart';
 
 import 'controller/auth_controller.dart';

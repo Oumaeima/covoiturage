@@ -4,13 +4,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
+import '../model/driver.dart.dart';
+
 class AuthController extends GetxController{
+  var driverModel = DriverModel().obs;
 
   String userUid = "";
   var verId = "";
   int? resendTokenId;
   bool phoneAuthCheck = false;
   dynamic credentials;
+
+
 
   phoneAuth(String phone) async{
     try{
@@ -56,4 +61,18 @@ class AuthController extends GetxController{
       });
     }
   }
+
+  void getUserInfo() {
+
+    var driverModel = DriverModel().obs;
+
+    getUserInfo(){
+      String uid = FirebaseAuth.instance.currentUser!.uid;
+      FirebaseFirestore.instance.collection("driver").doc(uid).snapshots().listen((event) {
+        driverModel.value = DriverModel.formJson(event.data()!);
+      });
+      print(uid);
+    }
+  }
 }
+
