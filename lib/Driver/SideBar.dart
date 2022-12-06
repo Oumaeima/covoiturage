@@ -101,7 +101,7 @@ class NavBar extends StatelessWidget {
           leading: const Icon(Icons.notifications
 
               ,  color: Colors.grey          ),
-          title: const Text('Notifications',
+          title: const Text('Notifications ',
             style: TextStyle(fontStyle: FontStyle.italic ,color:Colors.black),
           ),
           onTap:  () => Navigator.push(
