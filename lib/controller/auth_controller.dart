@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:wetrajet/Models/driver.dart';
+import 'package:wetrajet/credentials.dart';
+import 'package:wetrajet/home.dart';
 
 class AuthController extends GetxController{
 
@@ -49,11 +52,27 @@ class AuthController extends GetxController{
       FirebaseFirestore.instance.collection('driver').doc(user.uid).get()
           .then((value){
             if(value.exists){
-              Get.to("home");
+              Future<dynamic>?  goToPath(){
+                Get.to(() => const Home());
+                return null;
+              }
             }else{
-              Get.to("credentials");
+              Future<dynamic>?  goToPath(){
+                Get.to(() => const Credentials());
+                return null;
+              }
             }
       });
     }
+  }
+
+  var driverModel = DriverModel().obs;
+
+  getUserInfo(){
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    FirebaseFirestore.instance.collection("driver").doc(uid).snapshots().listen((event) {
+      driverModel.value = DriverModel.formJson(event.data()!);
+    });
+    //print(uid);
   }
 }

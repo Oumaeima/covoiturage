@@ -2,18 +2,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wetrajet/controller/auth_controller.dart';
-import 'package:wetrajet/otp.dart';
 
-class MyPhone extends StatefulWidget {
-  const MyPhone({Key? key}) : super(key: key);
+
+class LoginClient extends StatefulWidget {
+  const LoginClient({Key? key}) : super(key: key);
 
   static String verify = "";
 
   @override
-  State<MyPhone> createState() => _MyPhoneState();
+  State<LoginClient> createState() => _LoginClientState();
 }
 
-class _MyPhoneState extends State<MyPhone> {
+class _LoginClientState extends State<LoginClient> {
 
   TextEditingController countryCode = TextEditingController();
   var phoneNumber = "";
@@ -110,8 +110,8 @@ class _MyPhoneState extends State<MyPhone> {
                       verificationCompleted: (PhoneAuthCredential credential) {},
                       verificationFailed: (FirebaseAuthException e) {},
                       codeSent: (String verificationId, int? resendToken) {
-                        MyPhone.verify = verificationId;
-                        Navigator.pushNamed(context, "otp");
+                        LoginClient.verify = verificationId;
+                        Navigator.pushNamed(context, "otpPassenger");
                       },
                       codeAutoRetrievalTimeout: (String verificationId) {},
                     );

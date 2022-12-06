@@ -1,23 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:pinput/pinput.dart';
-import 'package:wetrajet/Models/driver.dart';
 import 'package:wetrajet/phone.dart';
 
-import 'Models/driver.dart';
-import 'controller/auth_controller.dart';
+import '../controller/auth_controller.dart';
 
-class MyOtp extends StatefulWidget {
-  const MyOtp({Key? key}) : super(key: key);
+
+class OtpClient extends StatefulWidget {
+  const OtpClient({Key? key}) : super(key: key);
 
   @override
-  State<MyOtp> createState() => _MyOtpState();
+  State<OtpClient> createState() => _OtpClientState();
 }
 
-class _MyOtpState extends State<MyOtp> {
+class _OtpClientState extends State<OtpClient> {
 
   //AuthController authController = Get.find<AuthController>();
 
@@ -109,7 +107,7 @@ class _MyOtpState extends State<MyOtp> {
                      PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: MyPhone.verify, smsCode: code);
                      // Sign the user in (or link) with the credential
                      await auth.signInWithCredential(credential);
-                     Navigator.pushNamedAndRemoveUntil(context, "home", (route) => false);
+                     Navigator.pushNamedAndRemoveUntil(context, "homePassenger", (route) => false);
                    }catch(e){
                       print("wrong otp");
                    }

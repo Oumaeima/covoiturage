@@ -2,9 +2,13 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../controller/auth_controller.dart';
 
 class InfoVehiculeChauffeur extends StatefulWidget {
   const InfoVehiculeChauffeur({Key? key}) : super(key: key);
@@ -61,7 +65,36 @@ class _InfoVehiculeChauffeurState extends State<InfoVehiculeChauffeur> {
     });
   }
 
+  updateUserInfo(File? image, String plaque, String marque,{String url = ''}) async{
+    String new_url = url;
+    if(image != null){
+      new_url = await uploadImage(image);
+    }
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    FirebaseFirestore.instance.collection("driver").doc(uid).update({
+      'photo-voiture': new_url,
+      'plaque-immatriculation' : plaqueController.text,
+      'marque-voiture': marqueController.text,
+    }).then((value){
+      plaqueController.clear();
+      marqueController.clear();
+      isLoading = false;
+      Navigator.pushNamed(context, "profileC");
+    });
+  }
+
+  AuthController authController = Get.put(AuthController());
+
   bool isLoading = false;
+
+
+  @override
+  void initState() {
+    super.initState();
+    authController.getUserInfo();
+    plaqueController.text = authController.driverModel.value.plaqueImmatriculation??"";
+    marqueController.text = authController.driverModel.value.marqueVoiture??"";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +127,10 @@ class _InfoVehiculeChauffeurState extends State<InfoVehiculeChauffeur> {
                             height: 10,
                           ),
                           const Text("Photo de Véhicule"),
-                          selectedImage == null? Image.asset('lib/assets/car.png', width: 200, height: 200,):
-                          Container(
+                          selectedImage == null? authController.driverModel.value.marqueVoiture == null?
+                          Image.asset('lib/assets/car.png', width: 200, height: 200,)
+                          : Image.network(authController.driverModel.value.photoVoiture!, width: 200, height: 200,)
+                          : Container(
                             margin: EdgeInsets.only(top: 10, bottom: 10),
                             width: 200,
                             height: 100,
@@ -164,7 +199,8 @@ class _InfoVehiculeChauffeurState extends State<InfoVehiculeChauffeur> {
                                     ),
                                   ),
                                 ),
-                                 Expanded(
+                                  authController.driverModel.value.plaqueImmatriculation == null?
+                                  Expanded(
                                   child: TextField(
                                     controller: plaqueController,
                                     keyboardType: TextInputType.text,
@@ -175,7 +211,18 @@ class _InfoVehiculeChauffeurState extends State<InfoVehiculeChauffeur> {
                                     ),
 
                                   ),
-                                ),
+                                ):
+                                  Expanded(
+                                    child: TextField(
+                                      controller: plaqueController,
+                                      keyboardType: TextInputType.text,
+                                      decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          hintStyle: TextStyle(fontSize: 15)
+                                      ),
+
+                                    ),
+                                  ),
                               ],
                             ),
                           ),
@@ -223,6 +270,7 @@ class _InfoVehiculeChauffeurState extends State<InfoVehiculeChauffeur> {
                                     ),
                                   ),
                                 ),
+                                authController.driverModel.value.plaqueImmatriculation == null?
                                 Expanded(
                                   child: TextField(
                                     controller: marqueController,
@@ -230,6 +278,17 @@ class _InfoVehiculeChauffeurState extends State<InfoVehiculeChauffeur> {
                                     decoration: const InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "Marque de voiture",
+                                        hintStyle: TextStyle(fontSize: 15)
+                                    ),
+
+                                  ),
+                                ):
+                                Expanded(
+                                  child: TextField(
+                                    controller: marqueController,
+                                    keyboardType: TextInputType.text,
+                                    decoration: const InputDecoration(
+                                        border: InputBorder.none,
                                         hintStyle: TextStyle(fontSize: 15)
                                     ),
 
@@ -250,7 +309,8 @@ class _InfoVehiculeChauffeurState extends State<InfoVehiculeChauffeur> {
                     width: 50,
                     height: 10,
                   ),
-                  isLoading? Center(child: CircularProgressIndicator(),): ElevatedButton(
+                  authController.driverModel.value.marqueVoiture == null?
+                  ElevatedButton(
                     onPressed: () {
                       validateForm();
                       setState((){
@@ -259,6 +319,28 @@ class _InfoVehiculeChauffeurState extends State<InfoVehiculeChauffeur> {
                       storeUserInfo();
                     },
                     child: Text('Terminer'),
+                    style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(330, 45),
+                        primary: Color(0xFF4BE3B0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        elevation: 10
+                    ),):
+                  ElevatedButton(
+                    onPressed: () {
+                      validateForm();
+                      setState((){
+                        isLoading = true;
+                      });
+                     updateUserInfo(
+                         selectedImage,
+                         plaqueController.text,
+                         marqueController.text,
+                         url: authController.driverModel.value.photoVoiture??""
+                     );
+                    },
+                    child: Text('Update'),
                     style: ElevatedButton.styleFrom(
                         fixedSize: const Size(330, 45),
                         primary: Color(0xFF4BE3B0),

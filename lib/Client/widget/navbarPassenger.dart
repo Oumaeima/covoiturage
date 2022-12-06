@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class NavBar extends StatelessWidget {
-  const NavBar({Key? key}) : super(key: key);
+class NavBarPassenger extends StatelessWidget {
+  const NavBarPassenger({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +24,10 @@ class NavBar extends StatelessWidget {
                 Center(
                   heightFactor: 0.6,
                   child: FloatingActionButton(
-                    onPressed: (){
-                      //Navigator.pushNamed(context, "add-group");
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => _buildPopupDialog(context),
-                      );
-                    },
-                    backgroundColor: Color(0xFF4BE3B0),
-                    child: Icon(Icons.group_add), elevation: 0.1,
+                    onPressed: (){},
+                    backgroundColor: const Color(0xFF4BE3B0),
+                    child: Image.asset("lib/assets/utilisateur.png", width: 60, height: 30, alignment: Alignment.topCenter),
+                    elevation: 0.1,
                   ),
                 ),
                 Container(
@@ -47,7 +42,7 @@ class NavBar extends StatelessWidget {
                       ),
                       IconButton(
                           onPressed: (){
-                            Navigator.pushNamed(context, "profileC");
+                            Navigator.pushNamed(context, "groupsClient");
                           },
                           icon: Icon(Icons.group_rounded, color: Colors.white,)
                       ),
@@ -98,38 +93,4 @@ class BNBCustomPaint extends CustomPainter{
     return false;
   }
 
-}
-
-Widget _buildPopupDialog(BuildContext context) {
-  return AlertDialog(
-    title: const Text('Add Group'),
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children:  <Widget>[
-        Icon(Icons.do_not_disturb_on_total_silence_sharp, color: Color(0xFF4BE3B0),),
-        TextField(
-
-          //controller: permisController,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              hintText: "Starting",
-              hintStyle: TextStyle(fontSize: 15)
-          ),
-        ),
-      ],
-    ),
-    actions: <Widget>[
-      TextButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        style: ButtonStyle(
-
-        ),
-        child: const Text('Close'),
-      ),
-    ],
-  );
 }
