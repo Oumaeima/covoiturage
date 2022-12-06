@@ -63,7 +63,6 @@ class _InfoBaseState extends State<InfoBase> {
       'name' : fullNameController.text,
       'birthday': dateController.text,
       'email': emailController.text,
-      'role': "driver"
     }).then((value){
       fullNameController.clear();
       dateController.clear();

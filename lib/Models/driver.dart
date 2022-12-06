@@ -10,6 +10,7 @@ class DriverModel {
   String? rectoPermis;
   String? versoPermis;
   String? expirationPermis;
+  String? role;
 
   DriverModel(
       {this.name,
@@ -22,7 +23,9 @@ class DriverModel {
       this.plaqueImmatriculation,
       this.rectoPermis,
       this.versoPermis,
-      this.expirationPermis});
+      this.expirationPermis,
+      this.role,
+      });
 
   DriverModel.formJson(Map<String, dynamic> json){
     name = json['name'];
@@ -36,5 +39,6 @@ class DriverModel {
     versoPermis = json['verso-permis'];
     expirationPermis = json['expiration-permis'];
     photoVoiture = json['photo-voiture'];
+    photoVoiture = json['role'];
   }
 }

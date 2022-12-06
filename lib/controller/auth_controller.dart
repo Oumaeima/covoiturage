@@ -73,6 +73,6 @@ class AuthController extends GetxController{
     FirebaseFirestore.instance.collection("driver").doc(uid).snapshots().listen((event) {
       driverModel.value = DriverModel.formJson(event.data()!);
     });
-    print(uid);
+    //print(uid);
   }
 }
